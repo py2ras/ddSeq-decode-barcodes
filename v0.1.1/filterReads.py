@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-# Program to filter the reads based
-# the ACG and PolyT sequences and positions
+# Program to test the efficiency of deleting rows
+# from Pandas dataframe
 # @author - Sarthak Sharma
-# Date of last modification - 09/06/2018
+# Date of last modification - 09/04/2018
 
 import pandas as pd
 import sys
@@ -27,6 +27,12 @@ def removeBadBlocks(df):
     return filteredDataFrame
 
 def isBlockCorrect(block,correctSequence):
+    # Sometimes I get a "nan" at the ACG and polyT blocks 
+    # when the linkers are too far from the starting position 
+    # of the read. In such a case, finding hamming distance
+    # throws a TypeError.
+    # Nonetheless, such reads should be filtered and hence,
+    # I am returning such a block as an incorrect block
     try:
         if len(block) == len(correctSequence):
             if distance.hamming(block,correctSequence) <= 1:
@@ -34,7 +40,6 @@ def isBlockCorrect(block,correctSequence):
         else:
             return False
     except TypeError:
-        print block
         return False
 
 def main():
