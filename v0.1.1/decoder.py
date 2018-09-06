@@ -91,9 +91,9 @@ def main():
                 if all_blocks != None:
                     rows.append(all_blocks)
     df = pd.DataFrame(rows, columns=columns)
-    print "Time taken:", time.time() - start_time
+    print "Time taken to decode:", time.time() - start_time
     start_time = time.time()
-    df.to_csv("out.tsv", sep="\t", encoding="utf-8")
+    df.to_csv("out.tsv", sep="\t", index=False, encoding="utf-8")
     print "Time to write:", time.time() - start_time
 
 if __name__ == '__main__':
