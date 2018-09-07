@@ -11,7 +11,8 @@ import sys
 import distance
 import pandas as pd
 import time
-import bktreeTest
+#import bktreeTest
+import dd_bktree
 
 columns = ["ReadNumber","BC1","BC2","BC3","ACG","UMI","GACTTT","IndicesString"]
 possible_bar_codes = ['AAAGAA', 'AACAGC', 'AACGTG', 'AAGCCA', 'AAGTAT', 'AATTGG', 'ACAAGG', 'ACCCAA', 'ACCTTC', 'ACGGAC', 'ACTGCA', 'AGACCC', 'AGATGT', 'AGCACG', 'AGGTTA', 'AGTAAA', 'AGTCTG', 'ATACTT', 'ATAGCG', 'ATATAC', 'ATCCGG', 'ATGAAG', 'ATTAGT', 'CAACCG', 'CAAGTC', 'CACCAC', 'CACTGT', 'CAGACT', 'CAGGAG', 'CATAGA', 'CCACGC', 'CCGATG', 'CCGTAA', 'CCTCTA', 'CGAAAG', 'CGAGCA', 'CGCATA', 'CGGCGT', 'CGGTCC', 'CGTTAT', 'CTAGGT', 'CTATTA', 'CTCAAT', 'CTGTGG', 'CTTACG', 'CTTGAA', 'GAAATA', 'GAAGGG', 'GACTCG', 'GAGCTT', 'GAGGCC', 'GAGTGA', 'GATCAA', 'GCCAGA', 'GCCGTT', 'GCGAAT', 'GCGCGG', 'GCTCCC', 'GCTGAG', 'GCTTGT', 'GGACGA', 'GGATTG', 'GGCCAT', 'GGGATC', 'GGTAGG', 'GGTGCT', 'GTACAG', 'GTCCTA', 'GTCGGC', 'GTGGTG', 'GTTAAC', 'GTTTCA', 'TAAGCT', 'TAATAG', 'TACCGA', 'TAGAGG', 'TATTTC', 'TCAGTG', 'TCATCA', 'TCCAAG', 'TCGCCT', 'TCGGGA', 'TCTAGC', 'TGAATT', 'TGAGAC', 'TGCGGT', 'TGCTAA', 'TGGCAG', 'TGTGTA', 'TGTTCG', 'TTAAGA', 'TTCGCA', 'TTCTTG', 'TTGCTC', 'TTGGAT', 'TTTGGG']
@@ -44,7 +45,9 @@ def hamming(s,t):
 
 def BKTreeCorrection(filteredDf):
     # implements BK Tree for searching similar words - very fast
-    tree = bktreeTest.BKTree(hamming,possible_bar_codes)
+    tree = dd_bktree.Tree(possible_bar_codes[0])
+    for possible_bar_code in possible_bar_codes[1:]:
+        tree.add_child(possible_bar_code)
     rows = filteredDf.values.tolist()
     corrected_reads = 0
     for row in rows:
@@ -60,7 +63,7 @@ def BKTreeCorrection(filteredDf):
     return rows
 
 def getNewBC(bc, tree):
-    bc_new = tree.query(bc,1)
+    bc_new = tree.search(bc,1)
     if len(bc_new) == 0:
         return bc
     else:
