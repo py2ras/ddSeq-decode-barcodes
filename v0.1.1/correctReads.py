@@ -11,7 +11,6 @@ import sys
 import distance
 import pandas as pd
 import time
-#import bktreeTest
 import ddBKtree
 
 columns = ["ReadNumber","BC1","BC2","BC3","ACG","UMI","GACTTT","IndicesString"]
@@ -45,9 +44,11 @@ def hamming(s,t):
 
 def BKTreeCorrection(filteredDf):
     # implements BK Tree for searching similar words - very fast
-    tree = dd_bktree.Tree(possible_bar_codes[0])
-    for possible_bar_code in possible_bar_codes[1:]:
-        tree.add_child(possible_bar_code)
+    #tree = ddBKtree.Tree(possible_bar_codes[0])
+    #for possible_bar_code in possible_bar_codes[1:]:
+    #    tree.add_child(possible_bar_code)
+    tree = ddBKtree.Tree()
+    tree.add_word_list(possible_bar_codes)
     rows = filteredDf.values.tolist()
     corrected_reads = 0
     for row in rows:
