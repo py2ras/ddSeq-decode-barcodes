@@ -8,7 +8,7 @@
 import distance
 
 class Tree():
-    def __init__(self, word):
+    def __init__(self, word=""):
         self.children = {}
         self.word = word
 
@@ -21,6 +21,10 @@ class Tree():
                 self.children[ed].add_child(word)
         else:
             self.word = word
+
+    def add_word_list(self, word_list):
+        for word in word_list:
+            self.add_child(word)
 
     def search(self, query, tolerance):
         similar_words = self._search(query, tolerance)
@@ -37,21 +41,6 @@ class Tree():
                 results.extend(child._search(query,tolerance))
         return sorted(results)
 
-    def add(self,data):
-        if self.data:
-            if data < self.data:
-                if self.left is None:
-                    self.left = Tree(data)
-                else:
-                    self.left.add(data)
-            elif data > self.data:
-                if self.right is None:
-                    self.right = Tree(data)
-                else:
-                    self.right.add(data)
-        else:
-            self.data = data
-
     def printTree(self):
         if self.children:
             for ed in self.children:
@@ -60,9 +49,12 @@ class Tree():
 
 def main():
     word_list = ["hell","helo","sell"]
-    tree = Tree(word_list[0])
-    for word in word_list[1:]:
-        tree.add_child(word)
+    tree = Tree()
+    tree.add_word_list(word_list)
+    tree.printTree()
+    #tree = Tree(word_list[0])
+    #for word in word_list[1:]:
+    #    tree.add_child(word)
     res = tree.search("help",1)
     print res
 
