@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-# Program to test the efficiency of deleting rows
-# from Pandas dataframe
+# Program to remove reads with incorrect positions
+# of ACG or polyT blocks
 # @author - Sarthak Sharma
 # Date of last modification - 09/04/2018
 
