@@ -42,15 +42,6 @@ def getAllBlocks(read, read_number):
     else:
         return None
 
-def findAllOtherIndices(l1_ind, l2_ind):
-    bc1_ind = l1_ind - bc_length
-    bc2_ind = l2_ind - bc_length
-    bc3_ind = l2_ind + linker_length
-    acg_ind = bc3_ind + bc_length
-    umi_ind = acg_ind + acg_length
-    polyT_ind = umi_ind + umi_length
-    return [bc1_ind,bc2_ind,bc3_ind,acg_ind,umi_ind,polyT_ind]
-
 def findLinkerIndices(read, read_number):
     l2_ind = 0
     l1_ind = 0
@@ -65,6 +56,15 @@ def findLinkerIndices(read, read_number):
         rejectRead(read_number)
         return None
     return [l1_ind, l2_ind]
+
+def findAllOtherIndices(l1_ind, l2_ind):
+    bc1_ind = l1_ind - bc_length
+    bc2_ind = l2_ind - bc_length
+    bc3_ind = l2_ind + linker_length
+    acg_ind = bc3_ind + bc_length
+    umi_ind = acg_ind + acg_length
+    polyT_ind = umi_ind + umi_length
+    return [bc1_ind,bc2_ind,bc3_ind,acg_ind,umi_ind,polyT_ind]
 
 def isLinker(kmer,linker):
     if distance.hamming(kmer,linker) <= 1:

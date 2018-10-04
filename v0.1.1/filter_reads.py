@@ -2,7 +2,7 @@
 
 # Program to remove reads with incorrect positions
 # of ACG or polyT blocks
-# @author - Sarthak Sharma
+# @author - Sarthak Sharma <sarthaksharma@gatech.edu>
 # Date of last modification - 09/04/2018
 
 import pandas as pd
