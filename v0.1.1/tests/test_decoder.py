@@ -16,3 +16,5 @@ def test_findLinkerIndices():
 def test_findAllOtherIndices():
     pass
 
+def test_rejectRead():
+    pass
