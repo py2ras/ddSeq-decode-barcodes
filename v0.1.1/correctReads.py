@@ -8,7 +8,6 @@
 # Date of Last Modification - 09/06/2018
 
 import sys
-import distance
 import pandas as pd
 import time
 import ddBKtree
@@ -39,8 +38,9 @@ def simpleCorrection(filteredDf):
     print "No. of reads corrected:",corrected_reads
     return rows
 
-def hamming(s,t):
-    return distance.hamming(s,t)
+def hamming_distance(s1,s2):
+    assert len(s1) == len(s2)
+    return sum(c1 != c2 for c1, c2 in zip(s1, s2))
 
 def BKTreeCorrection(filteredDf):
     # implements BK Tree for searching similar words - very fast
@@ -72,6 +72,9 @@ def getNewBC(bc, tree):
 
 def main():
     start_time = time.time()
+    if len(sys.argv) < 2:
+        print "Usage: python " + sys.argv[0] + " filtered_reads_table"
+        quit()
     inFile = sys.argv[1]
     filteredDf = pd.read_csv(inFile, sep='\t', header=0)
     corrected_rows = BKTreeCorrection(filteredDf)

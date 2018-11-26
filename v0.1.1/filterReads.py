@@ -1,13 +1,12 @@
 #!/usr/bin/python
 
-# Program to remove reads with incorrect positions
-# of ACG or polyT blocks
-# @author - Sarthak Sharma <sarthaksharma@gatech.edu>
+# Program to test the efficiency of deleting rows
+# from Pandas dataframe
+# @author - Sarthak Sharma
 # Date of last modification - 09/04/2018
 
 import pandas as pd
 import sys
-import distance
 import time
 
 def removeBadBlocks(df):
@@ -35,14 +34,21 @@ def isBlockCorrect(block,correctSequence):
     # I am returning such a block as an incorrect block
     try:
         if len(block) == len(correctSequence):
-            if distance.hamming(block,correctSequence) <= 1:
+            if hamming_distance(block,correctSequence) <= 1:
                 return True
         else:
             return False
     except TypeError:
         return False
 
+def hamming_distance(s1, s2):
+    assert len(s1) == len(s2)
+    return sum(c1 != c2 for c1, c2 in zip(s1, s2))
+
 def main():
+    if len(sys.argv) < 2:
+        print "Usage: python " + sys.argv[0] + " filtered_reads_table"
+        quit()
     inFile = sys.argv[1]
     start_time = time.time()
     df = pd.read_csv(inFile, sep='\t', header=0)

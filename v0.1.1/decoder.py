@@ -6,7 +6,6 @@
 # Date of Last Modification - 08/31/2018
 
 import time
-import distance
 import sys
 import pandas as pd
 
@@ -42,6 +41,15 @@ def getAllBlocks(read, read_number):
     else:
         return None
 
+def findAllOtherIndices(l1_ind, l2_ind):
+    bc1_ind = l1_ind - bc_length
+    bc2_ind = l2_ind - bc_length
+    bc3_ind = l2_ind + linker_length
+    acg_ind = bc3_ind + bc_length
+    umi_ind = acg_ind + acg_length
+    polyT_ind = umi_ind + umi_length
+    return [bc1_ind,bc2_ind,bc3_ind,acg_ind,umi_ind,polyT_ind]
+
 def findLinkerIndices(read, read_number):
     l2_ind = 0
     l1_ind = 0
@@ -57,20 +65,15 @@ def findLinkerIndices(read, read_number):
         return None
     return [l1_ind, l2_ind]
 
-def findAllOtherIndices(l1_ind, l2_ind):
-    bc1_ind = l1_ind - bc_length
-    bc2_ind = l2_ind - bc_length
-    bc3_ind = l2_ind + linker_length
-    acg_ind = bc3_ind + bc_length
-    umi_ind = acg_ind + acg_length
-    polyT_ind = umi_ind + umi_length
-    return [bc1_ind,bc2_ind,bc3_ind,acg_ind,umi_ind,polyT_ind]
-
 def isLinker(kmer,linker):
-    if distance.hamming(kmer,linker) <= 1:
+    if hamming_distance(kmer,linker) <= 1:
         return True
     else:
         return False
+
+def hamming_distance(s1, s2):
+    assert len(s1) == len(s2)
+    return sum(c1 != c2 for c1, c2 in zip(s1, s2))
 
 def rejectRead(read_number):
     rejected_reads.append(read_number)
@@ -80,8 +83,12 @@ def main():
     #read = "NCAGGATTGTAGCCATCGCATTGCGAAGGGTACCTCTGAGCTGAAATTAGTACGCATATAAAGACTTG"
     #read_number = 1
     start_time = time.time()
+    if len(sys.argv) < 2:
+        print "Usage: " + sys.argv[0] + " reads1_file"
+        quit()
     rows = []
     inFile = sys.argv[1]
+
     with open(inFile,'r') as fIn:
         for i,line in enumerate(fIn):
             if i%4 == 1:
