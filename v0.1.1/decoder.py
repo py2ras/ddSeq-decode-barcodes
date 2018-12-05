@@ -83,6 +83,7 @@ def main():
     #read = "NCAGGATTGTAGCCATCGCATTGCGAAGGGTACCTCTGAGCTGAAATTAGTACGCATATAAAGACTTG"
     #read_number = 1
     start_time = time.time()
+    print "Decoding reads ..."
     if len(sys.argv) < 2:
         print "Usage: " + sys.argv[0] + " reads1_file"
         quit()
