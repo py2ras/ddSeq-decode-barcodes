@@ -46,11 +46,12 @@ def hamming_distance(s1, s2):
     return sum(c1 != c2 for c1, c2 in zip(s1, s2))
 
 def main():
+    start_time = time.time()
+    print "Filtering reads ..."
     if len(sys.argv) < 2:
         print "Usage: python " + sys.argv[0] + " filtered_reads_table"
         quit()
     inFile = sys.argv[1]
-    start_time = time.time()
     df = pd.read_csv(inFile, sep='\t', header=0)
     filteredDf = removeBadBlocks(df)
     filteredDf.to_csv("fout.tsv", sep="\t", index=False, encoding="utf-8")
