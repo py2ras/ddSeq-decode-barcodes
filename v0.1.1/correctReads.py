@@ -72,6 +72,7 @@ def getNewBC(bc, tree):
 
 def main():
     start_time = time.time()
+    print "Correcting reads ..."
     if len(sys.argv) < 2:
         print "Usage: python " + sys.argv[0] + " filtered_reads_table"
         quit()
