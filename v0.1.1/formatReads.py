@@ -19,14 +19,13 @@ def formatReads(reads1_file, reads2_file, corrected_reads1_df):
     2. read_count < len(accepted_read_numbers)-1 can be used in another function
     '''
 
-    print "Formatting Reads ..."
-
     start_time = time.time()
+    #print "Formatting Reads ..."
 
     # if one would want to create the new files
     # in the same directory as the original
-    #r1_dirname = os.path.dirname(reads1_file)
-    #r2_dirname = os.path.dirname(reads2_file)
+    r1_dirname = os.path.dirname(reads1_file)
+    r2_dirname = os.path.dirname(reads2_file)
 
     r1_filename = os.path.basename(reads1_file)
     r2_filename = os.path.basename(reads2_file)
@@ -37,11 +36,11 @@ def formatReads(reads1_file, reads2_file, corrected_reads1_df):
 
     r1_in = open(reads1_file,"r")
     r2_in = open(reads2_file,"r")
-    r1_out = open("formatted_" + r1_filename,"w")
-    r2_out = open("formatted_" + r2_filename,"w")
+    #r1_out = open("formatted_" + r1_filename,"w")
+    #r2_out = open("formatted_" + r2_filename,"w")
 
-    #r1_out = open(r1_dirname + "/formatted_" + reads1_file,"w")
-    #r2_out = open(r2_dirname + "/formatted_" + reads2_file,"w")
+    r1_out = open(r1_dirname + "/formatted_" + r1_filename,"w")
+    r2_out = open(r2_dirname + "/formatted_" + r2_filename,"w")
 
     line_num = 0
     read_count = 0
@@ -74,7 +73,7 @@ def formatReads(reads1_file, reads2_file, corrected_reads1_df):
     r1_out.close()
     r2_out.close()
 
-    print "Reads formatted!"
+    #print "Reads formatted!"
 
     print "Time:", time.time() - start_time
 
@@ -141,15 +140,20 @@ def writeFormattedRead1(formatted_reads):
 
 def main():
     start_time = time.time()
+
     if len(sys.argv) < 4:
         print "Usage: python " + sys.argv[0] + " corrected_reads_1 reads_1 reads_2"
         quit()
+
+    print "Formatting Reads ..."
+
     corrected_reads1_file = sys.argv[1]
     reads1_file = sys.argv[2]
     reads2_file = sys.argv[3]
     corrected_reads1_df = pd.read_csv(corrected_reads1_file, sep='\t', header=0)
     formatReads(reads1_file, reads2_file, corrected_reads1_df)
 
+    print "Reads formatted!"
     print "Total time:", time.time() - start_time
 
 if __name__ == '__main__':
